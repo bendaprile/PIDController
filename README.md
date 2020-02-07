@@ -3,6 +3,23 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Reflection
+
+**Describe the effect each of the P, I, D components had in your implementation.**
+
+The Proportional term or P componenet of the PID controller adjusts the steering angle in proportion to a reference trajectory. In this case that reference trajectory is the center of the lane. There is a major problem with the P component in that it overshoots its trajectory. This creates an oscillation or a weave throughout the lane. If I set the P value to 1 and the I and D values to 0, the car would weave all around the lane. This is where the I and D values come into play.
+
+The Differential term or D component of the PID controller is the derivative of CTE. It uses the cte and previous cte to allow the car to reach its reference trajectory more gracefully. This will help the weaving problem that the P term introduced, but it has a problem of its own. The differential term does not account for any systematic bias. An example of systematic bias can be if the steering wheels are permanently off center.
+
+Finally, the Integral term or I component of the PID controller solves this problem. It solves the problem of systematic bias by using the sum of CTE over time. The controller will sometimes perform a bit worse and overshoot its reference trajectory a little with this component, but it will solve the problem of systematic bias which is very necessary.
+
+**Describe how the final hyperparameters were chosen.**
+
+Tuning my final hyperparameters took an immense amount of trial and error. I started out by tuning the P hyperparameter to see if I could get the car to stay in the lane at a slower speed. I then could see that the car stayed in its lane but was weaving all over the place. By increasing the value of the D hyperparameter I was able to get the car to more smoothly steer in its lane and not weave as much. I then realized that the car did not do great on straightaways and that the I hyperparameter might fix this. Increasing the I hyperparameter seemed to fix this.
+
+In the end the car did not drive amazing so I spent some more time fidgeting with all of the hyperparameters together. After much fidgeting I decided that my implementation was as good as I would get it. In the future, I would like to try to implement twiddle and see if that will improve my implementation.
+
+
 ## Dependencies
 
 * cmake >= 3.5
@@ -46,24 +63,6 @@ using the following settings:
 * indent using spaces
 * set tab width to 2 spaces (keeps the matrices in source code aligned)
 
-## Code Style
-
-Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
-
-## Project Instructions and Rubric
-
-Note: regardless of the changes you make, your project must be buildable using
-cmake and make!
-
-More information is only accessible by people who are already enrolled in Term 2
-of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
-for instructions and the project rubric.
-
-## Hints!
-
-* You don't have to follow this directory structure, but if you do, your work
-  will span all of the .cpp files here. Keep an eye out for TODOs.
-
 ## Call for IDE Profiles Pull Requests
 
 Help your fellow students!
@@ -92,7 +91,4 @@ that's just a guess.
 
 One last note here: regardless of the IDE used, every submitted project must
 still be compilable with cmake and make./
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
 
